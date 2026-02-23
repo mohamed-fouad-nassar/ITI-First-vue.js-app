@@ -15,6 +15,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.2.0",
     "daisyui": "^5.5.18",
+    "pinia": "^3.0.4",
     "tailwindcss": "^4.2.0",
     "vue": "^3.5.28",
     "vue-router": "^4.6.4"
