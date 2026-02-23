@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import Carousel from '@/components/Carousel.vue'
+import { useProductsStore } from '@/store/products'
 import ProductsList from '@/components/ProductsList.vue'
 
 const slides = [
@@ -36,14 +37,11 @@ const slides = [
   },
 ]
 
-defineProps({
-  products: {
-    type: Array,
-  },
-})
+const store = useProductsStore()
 
 onMounted(() => {
   console.log('Home Mounted')
+  store.fetchAll()
 })
 onUnmounted(() => {
   console.log('Home Unmounted')
@@ -52,5 +50,7 @@ onUnmounted(() => {
 
 <template>
   <Carousel :slides="slides" />
-  <ProductsList title="Our Products" :products="products" />
+  <div v-if="store.isLoading">Loading products...</div>
+  <div v-else-if="store.error">Error loading products: {{ store.error }}</div>
+  <ProductsList v-else title="Our Products" :products="store.products" />
 </template>

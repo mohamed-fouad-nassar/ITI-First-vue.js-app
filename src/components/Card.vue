@@ -4,30 +4,39 @@ import { RouterLink } from 'vue-router'
 
 const { product } = defineProps({
   product: {
-    id: Number,
     title: String,
-    img: String,
-    description: String,
-    stock: Number,
+    image: String,
+    imageAlt: String,
     price: Number,
-    discount: Number,
+    stock: Number,
     inStock: Boolean,
+    discount: Number,
+    description: String,
   },
 })
 
+function handleImgError(event) {
+  event.target.src = 'https://placehold.co/600x400?text=No+Image'
+}
+
 const priceWithDiscount = computed(() => {
-  if (product.inStock && product.discount != 0) {
-    return product.price * (1 - product.discount / 100)
-  } else {
-    return product.price
-  }
+  const finalPrice =
+    product.inStock && product.discount != 0
+      ? product.price * (1 - product.discount / 100)
+      : product.price
+  return finalPrice.toFixed(2)
 })
 </script>
 
 <template>
   <div class="card bg-base-100 shadow-sm">
     <figure>
-      <img :src="product.img" :alt="product.title" />
+      <img
+        :src="product.image"
+        :alt="product.imageAlt"
+        @error="handleImgError"
+        class="aspect-square object-cover"
+      />
     </figure>
     <div class="card-body">
       <h2 class="card-title text-primary-content font-semibold! text-xl">{{ product.title }}</h2>
