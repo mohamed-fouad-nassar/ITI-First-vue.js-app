@@ -71,8 +71,8 @@ const products = ref([
 
 const router = useRoute()
 const productId = computed(() => parseInt(router.params.id))
-const product = computed(() => products.value[--productId.value])
-const relatedProducts = computed(() => products.value.filter((p) => p.id !== product.id))
+const product = computed(() => products.value.find((p) => p.id === productId.value) || {})
+const relatedProducts = computed(() => products.value.filter((p) => p.id !== product.value.id))
 
 const buyHandler = (id) => {
   console.log(`Buying product with id: ${id}`)
